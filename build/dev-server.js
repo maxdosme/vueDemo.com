@@ -22,6 +22,44 @@ const autoOpenBrowser = !!config.dev.autoOpenBrowser
 const proxyTable = config.dev.proxyTable
 
 const app = express()
+
+// 获取data.json数据
+var appData = require('../data.json');
+var seller = appData.seller;
+var goods = appData.goods;
+var ratings = appData.ratings;
+
+// 编写项目路由(express：查找静态资源)
+var apiRoutes = express.Router();
+
+// 卖家路由
+apiRoutes.get('/seller',function (req,res){
+  res.json({
+    errno: 0,
+    data: seller
+  });
+});
+
+// 商品路由
+apiRoutes.get('/goods',function (req,res){
+  res.json({
+    errno: 0,
+    data: goods
+  });
+});
+
+// 评价路由
+apiRoutes.get('/ratings',function(req,res){
+  res.json({
+    errno: 0,
+    data: ratings
+  })
+});
+
+// 使用API 需要调用express()方法。安装google json格式化插件
+app.use('/api',apiRoutes);
+
+
 const compiler = webpack(webpackConfig)
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
