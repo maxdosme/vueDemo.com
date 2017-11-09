@@ -8,6 +8,8 @@ import VueRouter from 'vue-router';
 import goods from 'components/goods/goods';
 import ratings from 'components/ratings/ratings';
 import seller from 'components/seller/seller';
+//  引入全局stylus
+import 'common/stylus/index.styl';
 
 // 1.使用Vue.use 安装vue-router插件
 Vue.use(VueRouter);
@@ -23,7 +25,9 @@ const routes = [
 
 // 3.创建router实例
 const router = new VueRouter({
-  routes
+  routes,
+  // Router 构造配置重新构造linkActiveClass。router-link-active修改为class "active"
+  linkActiveClass: 'active'
 });
 
 // 4.创建挂载根实例
