@@ -37,7 +37,7 @@
     created() {
     axios.get('static/data.json').then((res) => {
       this.seller = res.data.seller;
-      console.log(this.seller);
+      // console.log(res.data.seller);
     });
   },
     components: {

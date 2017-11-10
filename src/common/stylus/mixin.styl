@@ -10,3 +10,10 @@ border-1px($color)
         width: 100%
         border-top: 1px solid $color
         content: ''                 // 伪类内容''空'
+
+//  处理图片对应2x还是3x
+bg-image($url)
+  background-image: url('img/'+$url+'@2x.png')
+  @media(-webkit-min-device-pixel-ratio:3),(min-device-pixel-ratio:3){
+    background-image: url('img/'+$url+'@3x.png')
+  }
