@@ -10,6 +10,11 @@ import ratings from 'components/ratings/ratings';
 import seller from 'components/seller/seller';
 //  引入全局stylus
 import 'common/stylus/index.styl';
+//  引用vue-resource插件
+import vueResource from 'vue-resource';
+
+//  全局注册vue-resource
+Vue.use(vueResource);
 
 // 1.使用Vue.use 安装vue-router插件
 Vue.use(VueRouter);

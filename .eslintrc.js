@@ -24,6 +24,9 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'semi': ['error','always'],
-    'indent': 0
+    // 配置为0表示不去检测这个规则
+    'indent': 0,
+    // app.vue中的data(){}不需要加空格
+    'space-before-function-paren': 0
   }
 }

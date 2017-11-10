@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-header></v-header>
+    <!-- 绑定v-bind vue-resource请求来的数据 -->
+    <v-header :bind="seller"></v-header>
     <div class="tab border-1px">
       <!-- 使用v-link进行导航 -->
       <div class="tab-item">
@@ -18,10 +19,31 @@
   </div>
 </template>
 
-<script>
+<script type='text/ecmascript-6'>
 // 注册import组件
   import header from './components/header/header.vue';
+
+  const ERR_OK = 0;
+
   export default {
+    //  ajax请求seller数据.PS:可以使用一个插件vue-resource处理前后端交互
+    data() {
+      return {
+        seller: {}
+      };
+    },
+    //  使用生命周期钩子使用vue-resource插件
+    created() {
+      //  拿到商家数据调用.then方法es6方法
+      this.$http.get('/api/seller').then((response) => {
+        response = response.body;
+        // console.log(response);
+        if (response.errno === ERR_OK) {
+          this.seller = Object.assign({}, this.seller, response.data);
+          // console.log(this.seller);
+        }
+      });
+    },
     components: {
       'v-header': header
     }
