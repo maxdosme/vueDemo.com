@@ -42,6 +42,8 @@
         <div class="background">
             <img :src="seller.avatar" width="100%" height="100%" />
         </div>
+        <!-- 全屏蒙版图 -->
+        <div class="datail"></div>
     </div>
 </template>
 
@@ -69,6 +71,7 @@
     @import "../../common/stylus/mixin.styl";
     .header
         position: relative
+        overflow: hidden
         color: #ffffff
         background: rgba(7,17,27,0.5)
         .content-wrapper
@@ -157,7 +160,7 @@
             .bulletin-title
                 display: inline-block
                 vertical-align top
-                margin-top: 7px
+                margin-top: 8px
                 width: 22px
                 height: 12px
                 bg-image('bulletin')
@@ -181,5 +184,14 @@
             z-index: -1
             // 添加滤镜效果制作蒙版CSS3 filter
             filter: blur(10px)
+        .datail
+            position: fixed
+            z-index: 100
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+            overflow: auto
+            background: rgba(7,17,27,0.8)
 </style>
 
