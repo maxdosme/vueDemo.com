@@ -43,7 +43,19 @@
             <img :src="seller.avatar" width="100%" height="100%" />
         </div>
         <!-- 全屏蒙版图 -->
-        <div v-show="detailShow" class="datail"></div>
+        <div v-show="detailShow" class="detail">
+            <!-- 清除浮动的外层 -->
+            <div class="detail-wrapper clearfix">
+                <!-- （内容） -->
+                <div class="detail-main">
+                    <h1></h1>
+                </div>
+            </div>
+            <!-- 关闭按钮 -->
+            <div class="detail-close">
+                <i class="icon-close"></i>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -196,7 +208,7 @@
             z-index: -1
             // 添加滤镜效果制作蒙版CSS3 filter
             filter: blur(10px)
-        .datail
+        .detail
             position: fixed
             z-index: 100
             top: 0
@@ -205,5 +217,17 @@
             height: 100%
             overflow: auto
             background: rgba(7,17,27,0.8)
+            .detail-wrapper
+                min-height: 100%
+                .detail-main
+                    margin-top: 64px
+                    padding-bottom: 64px
+            .detail-close
+                position: relative
+                width: 32px
+                height: 32px
+                margin: -64px auto 0 auto
+                clear both
+                font-size: 32px
 </style>
 
