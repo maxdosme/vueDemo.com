@@ -48,7 +48,13 @@
             <div class="detail-wrapper clearfix">
                 <!-- （内容） -->
                 <div class="detail-main">
-                    <h1></h1>
+                    <!-- 标题 -->
+                    <h1 class="name">{{ seller.name }}</h1>
+                    <!-- 评价星星 -->
+                    <div class="star-wrapper">
+                        <!-- 使用注册的star插件 -->
+                        <star :size="48" :score="seller.score"></star>
+                    </div>
                 </div>
             </div>
             <!-- 关闭按钮 -->
@@ -60,6 +66,9 @@
 </template>
 
 <script type='text/ecmascript-6'>
+// 引用star组件
+import star from 'components/star/star';
+
     // 对应app.vue import 创建一个vue实例
     export default{
         // 接受传递过来的v-bind来的属性使用props组件传递数据
@@ -85,6 +94,10 @@
         created() {
             this.iconClassMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
             // console.log(this.iconClassMap);
+        },
+        //  注册使用子组件star组件
+        components: {
+            star
         }
     };
 </script>
@@ -218,10 +231,20 @@
             overflow: auto
             background: rgba(7,17,27,0.8)
             .detail-wrapper
+                width: 100%
                 min-height: 100%
                 .detail-main
                     margin-top: 64px
                     padding-bottom: 64px
+                    .name
+                        line-height: 16px
+                        text-align: center
+                        font-size: 16px
+                        font-weight: bold 
+                    .star-wrapper
+                        margin-top: 18px
+                        padding: 2px 0
+                        text-align: center
             .detail-close
                 position: relative
                 width: 32px
