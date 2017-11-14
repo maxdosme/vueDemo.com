@@ -26,13 +26,13 @@
                 </div>
             </div>
             <!-- 优惠隐藏 -->
-            <div v-if="seller.supports" class="support-count">
+            <div v-if="seller.supports" class="support-count" @click="showDetail">
                 <span class="count">{{ seller.supports.length }}个</span>
                 <i class="icon-keyboard_arrow_right"></i>
             </div>
         </div>
         <!-- 公告栏 -->  
-        <div class="bulletin-wrapper">
+        <div class="bulletin-wrapper" @click="showDetail">
              <!-- 文字内容 -->
             <span class="bulletin-title"></span><span class="bulletin-text">{{ seller.bulletin }}</span>
             <!-- 箭头 -->
@@ -43,18 +43,30 @@
             <img :src="seller.avatar" width="100%" height="100%" />
         </div>
         <!-- 全屏蒙版图 -->
-        <div class="datail"></div>
+        <div v-show="detailShow" class="datail"></div>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
-    // 对应app.vue import
+    // 对应app.vue import 创建一个vue实例
     export default{
         // 接受传递过来的v-bind来的属性使用props组件传递数据
         props: {
             seller: {
                 //  必须首字母大写
                 type: Object
+            }
+        },
+        data() {
+            //  编译一个变量，初始化detailShow为none
+            return {
+                detailShow: false
+            };
+        },
+        //  创建方法
+        methods: {
+            showDetail() {
+                this.detailShow = true;
             }
         },
         // 创建折扣图片数组
