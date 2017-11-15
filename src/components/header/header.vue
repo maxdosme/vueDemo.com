@@ -260,6 +260,8 @@ import star from 'components/star/star';
             height: 100%
             overflow: auto
             background: rgba(7,17,27,0.8)
+            //  vue组件在ios下模态背景图片
+            backdrop-filter blur(10px)
             .detail-wrapper
                 width: 100%
                 min-height: 100%
