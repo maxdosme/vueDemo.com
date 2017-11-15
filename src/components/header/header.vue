@@ -42,50 +42,52 @@
         <div class="background">
             <img :src="seller.avatar" width="100%" height="100%" />
         </div>
-        <!-- 全屏蒙版图 -->
-        <div v-show="detailShow" class="detail">
-            <!-- 清除浮动的外层 -->
-            <div class="detail-wrapper clearfix">
-                <!-- （内容） -->
-                <div class="detail-main">
-                    <!-- 标题 -->
-                    <h1 class="name">{{ seller.name }}</h1>
-                    <!-- 评价星星 -->
-                    <div class="star-wrapper">
-                        <!-- 使用注册的star插件 -->
-                        <star :size="48" :score="seller.score"></star>
-                    </div>
-                    <!-- 使用flex布局制作title -->
-                    <div class="title">
-                        <div class="line"></div>
-                        <div class="text">优惠信息</div>
-                        <div class="line"></div>
-                    </div>
-                    <!-- 遍历优惠信息 -->
-                    <ul v-if="seller.supports" class="supports">
-                        <li class="support-item" v-for="item in seller.supports">
-                            <!-- 使用$index 取到所有当前下标 -->
-                            <span class="icon" :class="iconClassMap[item.type]"></span>
-                            <span class="text">{{ item.description }}</span>
-                        </li>
-                    </ul>
-                    <!-- 商家公告 -->
-                    <div class="title">
-                        <div class="line"></div>
-                        <div class="text">商家公告</div>
-                        <div class="line"></div>
-                    </div>
-                    <!-- 商家公告内容 -->
-                    <div class="bulletin">
-                        <p class="content">{{ seller.bulletin }}</p>
+        <!-- 全屏蒙版图，使用VUE 的transition属性添加css3动画效果 -->
+        <transition name="fade">
+            <div v-show="detailShow" class="detail">
+                <!-- 清除浮动的外层 -->
+                <div class="detail-wrapper clearfix">
+                    <!-- （内容） -->
+                    <div class="detail-main">
+                        <!-- 标题 -->
+                        <h1 class="name">{{ seller.name }}</h1>
+                        <!-- 评价星星 -->
+                        <div class="star-wrapper">
+                            <!-- 使用注册的star插件 -->
+                            <star :size="48" :score="seller.score"></star>
+                        </div>
+                        <!-- 使用flex布局制作title -->
+                        <div class="title">
+                            <div class="line"></div>
+                            <div class="text">优惠信息</div>
+                            <div class="line"></div>
+                        </div>
+                        <!-- 遍历优惠信息 -->
+                        <ul v-if="seller.supports" class="supports">
+                            <li class="support-item" v-for="item in seller.supports">
+                                <!-- 使用$index 取到所有当前下标 -->
+                                <span class="icon" :class="iconClassMap[item.type]"></span>
+                                <span class="text">{{ item.description }}</span>
+                            </li>
+                        </ul>
+                        <!-- 商家公告 -->
+                        <div class="title">
+                            <div class="line"></div>
+                            <div class="text">商家公告</div>
+                            <div class="line"></div>
+                        </div>
+                        <!-- 商家公告内容 -->
+                        <div class="bulletin">
+                            <p class="content">{{ seller.bulletin }}</p>
+                        </div>
                     </div>
                 </div>
+                <!-- 关闭按钮 -->
+                <div class="detail-close" @click="hideDetail()">
+                    <i class="icon-close"></i>
+                </div>
             </div>
-            <!-- 关闭按钮 -->
-            <div class="detail-close">
-                <i class="icon-close"></i>
-            </div>
-        </div>
+        </transition>
     </div>
 </template>
 
@@ -112,6 +114,10 @@ import star from 'components/star/star';
         methods: {
             showDetail() {
                 this.detailShow = true;
+            },
+            //  关闭功能
+            hideDetail() {
+                this.detailShow = false;
             }
         },
         // 创建折扣图片数组
@@ -327,5 +333,13 @@ import star from 'components/star/star';
                 margin: -64px auto 0 auto
                 clear both
                 font-size: 32px
+                color rgba(255,255,255,0.5)
+            // 使用transition属性添加css3动画效果
+            &.fade-enter-active, &.fade-leave-active {
+                transition: opacity .5s
+            }
+            &.fade-enter, &.fade-leave-active {
+                opacity: 0
+            }
 </style>
 
