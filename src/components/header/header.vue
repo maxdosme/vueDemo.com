@@ -69,6 +69,16 @@
                             <span class="text">{{ item.description }}</span>
                         </li>
                     </ul>
+                    <!-- 商家公告 -->
+                    <div class="title">
+                        <div class="line"></div>
+                        <div class="text">商家公告</div>
+                        <div class="line"></div>
+                    </div>
+                    <!-- 商家公告内容 -->
+                    <div class="bulletin">
+                        <p class="content">{{ seller.bulletin }}</p>
+                    </div>
                 </div>
             </div>
             <!-- 关闭按钮 -->
@@ -106,7 +116,7 @@ import star from 'components/star/star';
         },
         // 创建折扣图片数组
         created() {
-            this.iconClassMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
+            this.iconClassMap = ['decrease', 'discount', 'special', 'invoice', 'gurantee'];
             // console.log(this.iconClassMap);
         },
         //  注册使用子组件star组件
@@ -278,6 +288,7 @@ import star from 'components/star/star';
                         margin: 0 auto
                         .support-item
                             padding: 0 12px
+                            margin-bottom: 12px
                             font-size: 0
                             &:last-child
                                 margin-bottom: 0
@@ -300,8 +311,15 @@ import star from 'components/star/star';
                                 &.special
                                     bg-image('special_2')
                             .text
-                                line-height: 12px
+                                line-height: 16px
                                 font-size: 12px
+                    .bulletin
+                        width: 80%
+                        margin: 0 auto
+                        .content
+                            padding: 0 12px
+                            line-height: 24px
+                            font-size: 12px
             .detail-close
                 position: relative
                 width: 32px
