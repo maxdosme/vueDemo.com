@@ -55,6 +55,20 @@
                         <!-- 使用注册的star插件 -->
                         <star :size="48" :score="seller.score"></star>
                     </div>
+                    <!-- 使用flex布局制作title -->
+                    <div class="title">
+                        <div class="line"></div>
+                        <div class="text">优惠信息</div>
+                        <div class="line"></div>
+                    </div>
+                    <!-- 遍历优惠信息 -->
+                    <ul v-if="seller.supports" class="supports">
+                        <li class="support-item" v-for="item in seller.supports">
+                            <!-- 使用$index 取到所有当前下标 -->
+                            <span class="icon" :class="iconClassMap[item.type]"></span>
+                            <span class="text">{{ item.description }}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <!-- 关闭按钮 -->
@@ -245,6 +259,49 @@ import star from 'components/star/star';
                         margin-top: 18px
                         padding: 2px 0
                         text-align: center
+                    .title
+                        display: flex
+                        width: 80%
+                        margin: 28px auto 24px auto
+                        .line
+                            // vue-node编译时自动使用postcss工具会自动添加兼容代码
+                            flex: 1
+                            position: relative
+                            top: -6px
+                            border-bottom: 1px solid rgba(255,255,255,0.2)
+                        .text
+                            padding: 0 12px
+                            font-weight: 700
+                            font-size: 14px
+                    .supports
+                        width: 80%
+                        margin: 0 auto
+                        .support-item
+                            padding: 0 12px
+                            font-size: 0
+                            &:last-child
+                                margin-bottom: 0
+                            .icon
+                                display: inline-block
+                                width: 16px
+                                height: 16px
+                                vertical-align: top
+                                margin-right: 6px
+                                background-size: 16px 16px
+                                background-repeat: no-repeat
+                                &.decrease
+                                    bg-image('decrease_2')
+                                &.discount
+                                    bg-image('discount_2')
+                                &.gurantee
+                                    bg-image('guarantee_2')
+                                &.invoice
+                                    bg-image('invoice_2')
+                                &.special
+                                    bg-image('special_2')
+                            .text
+                                line-height: 12px
+                                font-size: 12px
             .detail-close
                 position: relative
                 width: 32px
