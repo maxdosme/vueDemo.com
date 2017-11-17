@@ -12,7 +12,13 @@
             </ul>
         </div>
         <!-- 右侧内容 -->
-        <div class="foods-wrapper"></div>
+        <div class="foods-wrapper">
+            <ul>
+                <li v-for="item in goods" class="food-list">
+                    <h1 class="title">{{ item.name }}</h1>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
