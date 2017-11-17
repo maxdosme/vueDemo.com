@@ -16,6 +16,34 @@
             <ul>
                 <li v-for="item in goods" class="food-list">
                     <h1 class="title">{{ item.name }}</h1>
+                    <!-- 商品 -->
+                    <ul>
+                        <li v-for="food in item.foods" class="food-item">
+                            <!-- 左右两个盒子 -->
+                            <div class="icon">
+                                <img :src="food.icon" />
+                            </div>
+                            <div class="content">
+                                <!-- 商品标题 -->
+                                <h2 class="name">{{ food.name }}</h2>
+                                <!-- 描述 -->
+                                <p class="desc">{{ food.description }}</p>
+                                <!-- 备注 -->
+                                <div class="extra">
+                                    <!-- 销售情况 -->
+                                    <span>月售{{  food.sellCount }}份</span>
+                                    <span>好评率{{  food.rating }}%</span>
+                                </div>
+                                <!-- 价格 -->
+                                <div class="price">
+                                    <!-- 售价 -->
+                                    <span>￥{{  food.price }}</span>
+                                    <!-- 原价通过oldPrice是否有来显示 -->
+                                    <span v-show="food.oldPrice">￥{{ food.oldPrice }}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -105,6 +133,14 @@ import axios from 'axios';
                     font-size: 12px
         .foods-wrapper
             flex: 1
+            .title
+                padding-left: 14px
+                height: 26px
+                line-height: 26px
+                border-left: 2px solid #d9dde1
+                font-size: 12px
+                color: rgb(147,153,159)
+                background: #f3f5f7
 </style>
 
 
