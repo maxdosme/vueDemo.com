@@ -1,15 +1,20 @@
 
 // 使用mixin.styl进行css代码封装，函数（底部线条）。
 border-1px($color)
-    position: relative
-    &::after
-        display: block
-        position: absolute
-        left: 0
-        bottom: 0
-        width: 100%
-        border-top: 1px solid $color
-        content: ''                 // 伪类内容''空'
+  position: relative
+  &::after
+    display: block
+    position: absolute
+    left: 0
+    bottom: 0
+    width: 100%
+    border-top: 1px solid $color
+    content: ''                 // 伪类内容''空'
+
+//  删除1px线条（用于最后一个box）
+border-none()
+  &::after
+    display: none
 
 //  处理图片对应2x还是3x
 bg-image($url)

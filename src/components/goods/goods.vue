@@ -18,10 +18,10 @@
                     <h1 class="title">{{ item.name }}</h1>
                     <!-- 商品 -->
                     <ul>
-                        <li v-for="food in item.foods" class="food-item">
+                        <li v-for="food in item.foods" class="food-item border-1px">
                             <!-- 左右两个盒子 -->
                             <div class="icon">
-                                <img :src="food.icon" />
+                                <img width="57" height="57" :src="food.icon" />
                             </div>
                             <div class="content">
                                 <!-- 商品标题 -->
@@ -141,6 +141,25 @@ import axios from 'axios';
                 font-size: 12px
                 color: rgb(147,153,159)
                 background: #f3f5f7
+            .food-item
+                display: flex
+                margin 18px
+                padding-bottom: 18px
+                border-1px(rgba(7,17,27,0.1))
+                &:last-child
+                    border-none()
+                    margin-bottom: 0
+                .icon
+                    flex 0 0 57px
+                    margin-right: 10px
+                .content
+                    flex 1
+                    .name
+                        margin: 2px 0 8px 0
+                        height: 14px
+                        line-height: 14px
+                        font-size: 14px
+                        color: rgb(7,17,27)
 </style>
 
 
