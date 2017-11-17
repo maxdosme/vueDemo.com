@@ -1,7 +1,7 @@
 <template>
     <div class="goods">
-        <!-- 左侧导航 -->
-        <div class="menu-wrapper">
+        <!-- 左侧导航ref对应scroll插件中$refs -->
+        <div class="menu-wrapper" ref="menuWrapper">
             <ul>
                 <li v-for="item in goods" class="menu-item">
                     <span class="text border-1px">
@@ -11,8 +11,8 @@
                 </li>
             </ul>
         </div>
-        <!-- 右侧内容 -->
-        <div class="foods-wrapper">
+        <!-- 右侧内容ref对应scroll插件中$refs -->
+        <div class="foods-wrapper" ref="foodsWrapper">
             <ul>
                 <li v-for="item in goods" class="food-list">
                     <h1 class="title">{{ item.name }}</h1>
@@ -52,6 +52,9 @@
 
 <script type="text/ecmascript-6">
 
+//  引入better-scroll插件
+import BScroll from 'better-scroll';
+
 //  引入axios
 import axios from 'axios';
     export default {
@@ -76,8 +79,22 @@ import axios from 'axios';
             // axios获取json数据
             axios.get('static/data.json').then((res) => {
                 this.goods = res.data.goods;
-                // console.log(this.goods);
+                //  将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
+                this.$nextTick(() => {
+                    this._initScroll(); //  初始化scroll
+                });
             });
+        },
+        methods: {
+            // 使用scroll插件对应$refs dom元素是ref=""
+            _initScroll() {
+                this.menuWrapper = new BScroll(this.$refs.menuWrapper, {
+                    click: true
+                });
+                this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+                    click: true
+                });
+            }
         }
     };
 </script>
