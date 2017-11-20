@@ -3,8 +3,8 @@
         <!-- 左侧导航ref对应scroll插件中$refs -->
         <div class="menu-wrapper" ref="menuWrapper">
             <ul>
-                <!-- 反馈currentIndex Y实时变化：改变class -->
-                <li v-for="item in goods" class="menu-item" :class="{'current':currentIndex===index}">
+                <!-- 反馈menuCurrentIndex() Y实时变化：改变class -->
+                <li v-for="(item,index) in goods" :class="index==menuCurrentIndex?'menu-item-selected':'menu-item'">
                     <span class="text border-1px">
                         <!-- 添加判断type是否大于0的显示 -->
                         <span class="icon" v-show="item.type>0" :class="iconClassMap[item.type]"></span>{{ item.name }}
@@ -76,18 +76,19 @@ import axios from 'axios';
         //  使用vue计算属性
         computed: {
             //  定义左侧当前索引位置
-            currentIndex() {
+            menuCurrentIndex() {
                 //  遍历listHeight
-                for (let i = 0; i < this.listHeight.length; i++) {
+                for (let i = 0, l = this.listHeight.length; i < l; i++) {
                     //  获得当前索引值的高度
                     let height1 = this.listHeight[i];
                     //  获得下一个高度
                     let height2 = this.listHeight[i + 1];
                     //  如果是最后一个或满足这个区间条件则返回当前索引（实时发生变化）
-                    if (!height2 || (this.foodsScrollY > height1 && this.foodsScrollY < height2)) {
+                    if (!height2 || (this.foodsScrollY >= height1 && this.foodsScrollY < height2)) {
                         return i;
                     }
                 }
+                return 0;
             }
         },
         // 使用钩子函数创建
@@ -162,20 +163,18 @@ import axios from 'axios';
             // 兼容性写法需要独立在写一个宽度，不然安卓显示错误
             width: 80px
             background: #f3f5f7
-            .menu-item
-                display: table
-                width: 56px
-                height: 54px
-                line-height: 14px
-                padding: 0 12px
-                &.current
+            .menu-item-selected
                     position: relative
                     z-index: 10
                     margin-top: -1px
                     background: #ffffff
                     font-weight: 700
-                    .text
-                        border-none()
+            .menu-item, .menu-item-selected
+                display: table
+                width: 56px
+                height: 54px
+                line-height: 14px
+                padding: 0 12px
                 .icon
                     display: inline-block
                     vertical-align: top
