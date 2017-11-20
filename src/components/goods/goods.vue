@@ -3,7 +3,8 @@
         <!-- 左侧导航ref对应scroll插件中$refs -->
         <div class="menu-wrapper" ref="menuWrapper">
             <ul>
-                <li v-for="item in goods" class="menu-item">
+                <!-- 反馈currentIndex Y实时变化：改变class -->
+                <li v-for="item in goods" class="menu-item" :class="{'current':currentIndex===index}">
                     <span class="text border-1px">
                         <!-- 添加判断type是否大于0的显示 -->
                         <span class="icon" v-show="item.type>0" :class="iconClassMap[item.type]"></span>{{ item.name }}
@@ -14,7 +15,7 @@
         <!-- 右侧内容ref对应scroll插件中$refs -->
         <div class="foods-wrapper" ref="foodsWrapper">
             <ul>
-                <li v-for="item in goods" class="food-list">
+                <li v-for="item in goods" class="food-list food-list-hook">
                     <h1 class="title">{{ item.name }}</h1>
                     <!-- 商品 -->
                     <ul>
@@ -67,8 +68,27 @@ import axios from 'axios';
         //  绑定goods 赋值给data
         data() {
             return {
-                goods: []
+                goods: [],
+                listHeight: [],
+                foodsScrollY: 0
             };
+        },
+        //  使用vue计算属性
+        computed: {
+            //  定义左侧当前索引位置
+            currentIndex() {
+                //  遍历listHeight
+                for (let i = 0; i < this.listHeight.length; i++) {
+                    //  获得当前索引值的高度
+                    let height1 = this.listHeight[i];
+                    //  获得下一个高度
+                    let height2 = this.listHeight[i + 1];
+                    //  如果是最后一个或满足这个区间条件则返回当前索引（实时发生变化）
+                    if (!height2 || (this.foodsScrollY > height1 && this.foodsScrollY < height2)) {
+                        return i;
+                    }
+                }
+            }
         },
         // 使用钩子函数创建
         created() {
@@ -81,7 +101,8 @@ import axios from 'axios';
                 this.goods = res.data.goods;
                 //  将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
                 this.$nextTick(() => {
-                    this._initScroll(); //  初始化scroll
+                    this._initScroll();         //  初始化scroll
+                    this._calculateHeight();    // 初始化列表高度列表
                 });
             });
         },
@@ -92,8 +113,33 @@ import axios from 'axios';
                     click: true
                 });
                 this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
-                    click: true
+                    click: true,
+                    //  探针：显示实时滚动的位置
+                    probeType: 3
                 });
+
+                //  侦听实时滚动:报告
+                this.foodsScroll.on('scroll', (pos) => {
+                    //  foodsScrollY去接收这个pos.y，因为是小数需要Math取整。Math.abs转换成正值
+                    this.foodsScrollY = Math.abs(Math.round(pos.y));
+                });
+            },
+            //  计算高度（使用原生dom来获取）
+            _calculateHeight() {
+                //  获取.food-list-hook 先获取父元素foodsWrapper在使用JQ获取子元素每个li
+                let foodList = this.$refs.foodsWrapper.querySelectorAll('.food-list-hook');
+                //  临时变量
+                let height = 0;
+                //  把第一个高度赋值进去给height变量
+                this.listHeight.push(height);
+                //  循环获取多个数组遍历foodList
+                for (let i = 0; i < foodList.length; i++) {
+                    let item = foodList[i];
+                    //  累加height 使用clientHeight DOM接口拿到每个foodlist高度
+                    height += item.clientHeight;
+                    //  push到listHeight里
+                    this.listHeight.push(height);
+                }
             }
         }
     };
@@ -122,6 +168,14 @@ import axios from 'axios';
                 height: 54px
                 line-height: 14px
                 padding: 0 12px
+                &.current
+                    position: relative
+                    z-index: 10
+                    margin-top: -1px
+                    background: #ffffff
+                    font-weight: 700
+                    .text
+                        border-none()
                 .icon
                     display: inline-block
                     vertical-align: top
